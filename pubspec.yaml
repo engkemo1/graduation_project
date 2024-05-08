@@ -41,6 +41,12 @@ dependencies:
   flutter_svg: ^2.0.10+1
   animated_splash_screen: ^1.3.0
   introduction_screen: ^3.1.14
+  flutter_rating_bar: ^4.0.1
+  image_picker: ^1.0.8
+  favorite_button: ^0.0.4
+  percent_indicator: ^4.2.3
+  date_picker_timeline: ^1.2.6
+  easy_date_timeline: ^1.0.7
 
 dev_dependencies:
   flutter_test:

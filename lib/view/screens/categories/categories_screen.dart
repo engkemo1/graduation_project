@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Notification/notification_screen.dart';
+
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
 
@@ -34,7 +36,14 @@ class CategoriesScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Image.asset("assets/icons/notify.png"),
+                  InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const NotificationScreen()));
+                      },
+                      child: Image.asset("assets/icons/notify.png")),
                 ],
               ),
               const SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/view/screens/favourites/Favoiurites_none_widget.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key});
@@ -34,7 +35,11 @@ class NewsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Image.asset("assets/icons/notify.png"),
+                  InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (_)=>const FavouritesNoneWidget()));
+                      },
+                      child: Image.asset("assets/icons/notify.png")),
                 ],
               ),
               const SizedBox(
@@ -82,11 +87,14 @@ class NewsScreen extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  bottomRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10)),
-                              child: Image.asset('assets/images/Rectangle 64.png',fit: BoxFit.contain,scale: 1,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 30),
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                    bottomRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10)),
+                                child: Image.asset('assets/images/Rectangle 64.png',fit: BoxFit.contain,scale: 1,),
+                              ),
                             ),
                              const Expanded(
                               child: Padding(

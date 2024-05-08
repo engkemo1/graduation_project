@@ -4,6 +4,7 @@ import 'package:graduation_project/view/screens/categories/categories_screen.dar
 import 'package:graduation_project/view/screens/favourites/favourites_screen.dart';
 import 'package:graduation_project/view/screens/home_screen/home_screen.dart';
 import 'package:graduation_project/view/screens/news/news_screen.dart';
+import 'package:graduation_project/view/screens/profile/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,10 +16,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-HomeScreen(),
-NewsScreen(),    CategoriesScreen(),
-   FavouritesScreen(),
-    Text('Search Page'),
+    HomeScreen(),
+    NewsScreen(),
+    CategoriesScreen(),
+    FavouritesScreen(),
+    ProfileScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -50,40 +52,37 @@ NewsScreen(),    CategoriesScreen(),
             activeIcon: Container(
               padding: EdgeInsets.all(7),
               decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
               child: Image.asset("assets/icons/reports.png"),
             ),
             label: 'News',
           ),
-
           BottomNavigationBarItem(
             icon: Image.asset("assets/icons/Categorize.png"),
             activeIcon: Container(
               padding: EdgeInsets.all(7),
               decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
               child: Image.asset("assets/icons/Categorize.png"),
             ),
             label: 'Categories',
           ),
-
           BottomNavigationBarItem(
             icon: Image.asset("assets/icons/fav.png"),
             activeIcon: Container(
               padding: EdgeInsets.all(7),
               decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
               child: Image.asset("assets/icons/fav.png"),
             ),
             label: 'Favourite',
           ),
-
           BottomNavigationBarItem(
             icon: Image.asset("assets/icons/person.png"),
             activeIcon: Container(
               padding: EdgeInsets.all(7),
               decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
               child: Image.asset("assets/icons/person.png"),
             ),
             label: 'Profile',

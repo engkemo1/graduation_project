@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/view/screens/Notification/notification_screen.dart';
+import 'package:graduation_project/view/screens/categories/details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,7 +22,14 @@ class HomeScreen extends StatelessWidget {
                       width: 150,
                       height: 40,
                     ),
-                    Image.asset("assets/icons/notify.png"),
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const NotificationScreen()));
+                        },
+                        child: Image.asset("assets/icons/notify.png")),
                   ],
                 ),
                 const SizedBox(
@@ -209,21 +218,31 @@ class HomeScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               const Spacer(),
-                              Container(
-                                margin: EdgeInsets.only(bottom: 10, right: 10),
-                                height: 40,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.red,
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "Join",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              const DetailsScreen()));
+                                },
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: 10, right: 10),
+                                  height: 40,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.red,
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      "Join",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                 ),
                               )
@@ -314,7 +333,7 @@ class HomeScreen extends StatelessWidget {
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: Container(
-margin: EdgeInsets.all(5),
+                                  margin: EdgeInsets.all(5),
                                   height: 30,
                                   width: 60,
                                   decoration: BoxDecoration(
