@@ -1,19 +1,31 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graduation_project/view/screens/authentication/login.dart';
+import 'package:graduation_project/view_model/cubit/authentication_cubit/signup_cubit/signup_cubit.dart';
 
 import '../../../constants.dart';
 import 'forget_password_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
-   RegisterScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  RegisterScreen({super.key});
 
- final TextEditingController passController = TextEditingController();
-   final TextEditingController emailController = TextEditingController();
-   final TextEditingController userNameController = TextEditingController();
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
 
+class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController passController = TextEditingController();
 
-   @override
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController userNameController = TextEditingController();
+
+  bool obscureText = false;
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -71,20 +83,22 @@ class RegisterScreen extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
                         prefixIcon: Image.asset(
-                          "assets/icons/Group.png",height: 23,width: 23,
+                          "assets/icons/Group.png",
+                          height: 23,
+                          width: 23,
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         filled: true,
                         fillColor: Colors.grey.withOpacity(0.1)),
                   ),
@@ -109,15 +123,15 @@ class RegisterScreen extends StatelessWidget {
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         filled: true,
                         fillColor: Colors.grey.withOpacity(0.1)),
                   ),
@@ -129,6 +143,7 @@ class RegisterScreen extends StatelessWidget {
                   height: 60,
                   child: TextField(
                     controller: passController,
+                    obscureText: obscureText,
                     decoration: InputDecoration(
                         hintText: "Password",
                         hintStyle: const TextStyle(
@@ -140,24 +155,30 @@ class RegisterScreen extends StatelessWidget {
                           color: Colors.grey,
                         ),
                         suffixIcon: IconButton(
-                          icon: Image.asset(
-                            "assets/icons/eye.png",
-                            color: Color(0xff666666),
-                          ),
-                          onPressed: () {},
+                          icon: obscureText == true
+                              ? Image.asset(
+                                  "assets/icons/eye.png",
+                                  color: Color(0xff666666),
+                                )
+                              : Icon(Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              obscureText = !obscureText;
+                            });
+                          },
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         filled: true,
                         fillColor: Colors.grey.withOpacity(0.1)),
                   ),
@@ -165,14 +186,17 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                 Align(
+                Align(
                   alignment: Alignment.topRight,
                   child: InkWell(
-                    onTap: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => const ForgetPasswordScreen()));
+                    onTap: () {
+                      SignupCubit().signUp(
+                          context,
+                          userNameController.text,
+                          emailController.text,
+                          passController.text);
                     },
-                    child:const Text(
+                    child: const Text(
                       "Forget password?",
                       style: TextStyle(
                           color: Colors.black,
@@ -184,7 +208,7 @@ class RegisterScreen extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) =>  RegisterScreen()));
+                        MaterialPageRoute(builder: (_) => RegisterScreen()));
                   },
                   child: Container(
                     height: 47,
@@ -208,7 +232,9 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 const Row(
                   children: [
                     Spacer(),
@@ -216,7 +242,6 @@ class RegisterScreen extends StatelessWidget {
                     Text("     Or     "),
                     Expanded(child: Divider()),
                     Spacer(),
-
                   ],
                 ),
                 InkWell(
@@ -228,8 +253,8 @@ class RegisterScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white),
                     margin: const EdgeInsets.only(
-                      left: 14,                    top: 20,
-
+                      left: 14,
+                      top: 20,
                       right: 14,
                       bottom: 15,
                     ),
@@ -289,14 +314,19 @@ class RegisterScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const   Text("Already have an account?  ",style: TextStyle(
-                        color: Color(0xff656565),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15),),
+                    const Text(
+                      "Already have an account?  ",
+                      style: TextStyle(
+                          color: Color(0xff656565),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15),
+                    ),
                     InkWell(
-                      onTap: (){
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => const LoginScreen()));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const LoginScreen()));
                       },
                       child: const Text(
                         "Sign in",
