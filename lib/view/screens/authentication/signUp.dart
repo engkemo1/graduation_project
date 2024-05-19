@@ -6,9 +6,14 @@ import '../../../constants.dart';
 import 'forget_password_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+   RegisterScreen({super.key});
 
-  @override
+ final TextEditingController passController = TextEditingController();
+   final TextEditingController emailController = TextEditingController();
+   final TextEditingController userNameController = TextEditingController();
+
+
+   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -58,6 +63,7 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(
                   height: 60,
                   child: TextField(
+                    controller: userNameController,
                     decoration: InputDecoration(
                         hintText: "User name",
                         hintStyle: const TextStyle(
@@ -89,13 +95,14 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(
                   height: 60,
                   child: TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                         hintText: "Email",
                         hintStyle: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.email_outlined,
                           color: Colors.grey,
                         ),
@@ -121,6 +128,7 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(
                   height: 60,
                   child: TextField(
+                    controller: passController,
                     decoration: InputDecoration(
                         hintText: "Password",
                         hintStyle: const TextStyle(
@@ -176,7 +184,7 @@ class RegisterScreen extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const RegisterScreen()));
+                        MaterialPageRoute(builder: (_) =>  RegisterScreen()));
                   },
                   child: Container(
                     height: 47,

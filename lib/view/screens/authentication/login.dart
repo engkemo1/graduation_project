@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graduation_project/view/screens/authentication/forget_password_screen.dart';
+import 'package:graduation_project/view/screens/authentication/signUp.dart';
 import 'package:graduation_project/view/screens/main_screen.dart';
 
 import '../../../constants.dart';
@@ -265,7 +266,10 @@ class LoginScreen extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         fontSize: 15),),
                     InkWell(
-                      onTap: (){},
+                      onTap: (){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) =>  RegisterScreen()));
+                      },
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
