@@ -48,9 +48,9 @@ class StartingScreen extends StatelessWidget {
             width: 228,
             color: Colors.black,
           ),
-          InkWell(
+          GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>const LoginScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
             },
             child: Container(
               height: 47,

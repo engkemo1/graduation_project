@@ -223,7 +223,7 @@ _openImagePicker();
                 alignment: Alignment.bottomLeft,
                 child: GestureDetector(
                   onTap: (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const LoginScreen()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
                   },
                   child:const Row(
                     children: [

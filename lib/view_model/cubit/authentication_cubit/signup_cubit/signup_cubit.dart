@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:graduation_project/view_model/cubit/authentication_cubit/signup_cubit/signup_state.dart';
 import 'package:graduation_project/view_model/database/network/dio_helper.dart';
 import 'package:graduation_project/view_model/database/network/endpoints.dart';
 
 import '../../../../models/login_model.dart';
+import '../../../../view/screens/main_screen.dart';
 import '../../../database/local.dart';
 
 
@@ -30,17 +32,8 @@ class SignupCubit extends Cubit<SignupState> {
 
     try {
 
-
-      FormData formData = FormData.fromMap({
-        'name': name,
-        "email": email,
-        'password': password,
-        "passwordConfirm":"user123",
-
-      });
-
       await DioHelper
-          .postData(url: "https://entertainiaa.onrender.com/api/v1/auth/signup",
+          .postData(url: "$baseUrl$SIGNUP",
           data:
           {
             'name': name,
@@ -58,13 +51,16 @@ class SignupCubit extends Cubit<SignupState> {
           CacheHelper.put(key: 'name', value: loginModel.name);
           CacheHelper.put(key: 'email', value: loginModel.email);
 
-
-        // showToast(message: value.data['message'], color: secondaryColor);
-print("sucessss");
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const MainScreen())  );
+                // showToast(message: value.data['message'], color: secondaryColor);
         emit(SignupSuccess());
       });
     } on DioError catch (e) {
-      print(e.response);
+      SmartDialog.showToast(e.response?.data["errors"][0]["msg"]);
+      print(e.response?.data["errors"][0]["msg"]);
 
       // showToast(message: e.response!.data['message'], color: Colors.red);
       emit(SignupError(e));

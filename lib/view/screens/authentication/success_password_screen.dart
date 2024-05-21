@@ -35,7 +35,7 @@ const Spacer(flex: 2,),
             InkWell(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const LoginScreen()));
+                    MaterialPageRoute(builder: (_) =>  LoginScreen()));
               },
               child: Container(
                 height: 47,

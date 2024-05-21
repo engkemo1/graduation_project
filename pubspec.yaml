@@ -34,6 +34,7 @@ dependencies:
   flutter_bloc:
   shared_preferences:
   dio:
+  intl:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -47,6 +48,8 @@ dependencies:
   percent_indicator: ^4.2.3
   date_picker_timeline: ^1.2.6
   easy_date_timeline: ^1.0.7
+  flutter_smart_dialog: ^4.9.7
+  flutter_verification_code: ^1.1.7
 
 dev_dependencies:
   flutter_test:

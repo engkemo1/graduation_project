@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:graduation_project/view/screens/Notification/notification_screen.dart';
 import 'package:graduation_project/view/screens/categories/details_screen.dart';
+import 'package:graduation_project/view_model/cubit/home_cubit/home_cubit.dart';
+
+import '../../../view_model/cubit/home_cubit/home_state.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -276,88 +281,100 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 13,
                 ),
-                SizedBox(
-                  height: 270,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        width: 222,
-                        height: 270,
-                        child: Card(
-                          elevation: 0.8,
-                          color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                child: Image.asset('assets/images/item1.png'),
-                                borderRadius: const BorderRadius.only(
-                                    bottomRight: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10)),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8.0, vertical: 5),
-                                child: Text(
-                                  "Opening of Friskies restaurant  ",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
-                                  "10,JUIN,2024",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
-                                  "10:00 PM",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: Container(
-                                  margin: EdgeInsets.all(5),
-                                  height: 30,
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.red,
+                BlocConsumer<HomeCubit, HomeMainState>(
+                    listener: (BuildContext context, HomeMainState state) async{
+                      if (state is UpComingEventsLoadingState) {
+                        SmartDialog.showLoading();
+                        await Future.delayed(const Duration(seconds: 2));
+                        SmartDialog.dismiss();
+                      }
+                    },
+                    builder: (BuildContext context, state) {
+                      var cubit= HomeCubit.get(context);
+                      return  SizedBox(
+                      height: 270,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            width: 222,
+                            height: 270,
+                            child: Card(
+                              elevation: 0.8,
+                              color: Colors.white,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10)),
+                                    child: Image.network( cubit.eventsList[index].toString()),
                                   ),
-                                  child: const Center(
+                                   Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 5),
                                     child: Text(
-                                      "25\$",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
+                                      cubit.eventsList[index].title.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    itemCount: 5,
-                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      "10,JUIN,2024",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      "10:00 PM",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Container(
+                                      margin: EdgeInsets.all(5),
+                                      height: 30,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.red,
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          "25\$",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        itemCount: cubit.eventsList.length,
+                      ),
+                    );
+                  }
                 )
               ],
             ),
