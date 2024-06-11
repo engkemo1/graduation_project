@@ -4,7 +4,7 @@
 
 //////////////////baseUrl/////////////////////////
 
-const String  baseUrl="https://entertainiaa.onrender.com/";
+const String  baseUrl="https://entertainia.onrender.com/";
 
 //////////////////apis////////////////////////////////////
 

@@ -4,6 +4,8 @@ import 'package:graduation_project/constants.dart';
 import 'package:graduation_project/view/screens/starting_screen.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
+import '../../view_model/database/local.dart';
+
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
 
@@ -20,6 +22,8 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const StartingScreen()),
     );
+    CacheHelper.put(key: "isFirstTime", value: false);
+
   }
 
   @override
@@ -222,6 +226,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                 fontSize: 16,
                 fontWeight: FontWeight.w500),
           ),
+
           done:
               const Text('Get Started', style: TextStyle(fontWeight: FontWeight.w800,color: redLevelColor,fontSize: 16)),
           curve: Curves.fastLinearToSlowEaseIn,

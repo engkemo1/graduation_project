@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:graduation_project/view/screens/admin/admin_home_screen.dart';
 import 'package:graduation_project/view_model/cubit/authentication_cubit/signup_cubit/signup_state.dart';
 import 'package:graduation_project/view_model/database/network/dio_helper.dart';
 import 'package:graduation_project/view_model/database/network/endpoints.dart';
@@ -46,15 +47,25 @@ class SignupCubit extends Cubit<SignupState> {
       )
           .then((value) {
             print(value.data);
-          loginModel=LoginData.fromJson(value.data['data']);
+          loginModel=LoginData.fromJson(value.data['data']["result"]);
           CacheHelper.put(key: 'token', value: value.data["token"]);
           CacheHelper.put(key: 'name', value: loginModel.name);
           CacheHelper.put(key: 'email', value: loginModel.email);
+            CacheHelper.put(key: 'role', value: loginModel.role);
+            CacheHelper.put(key: 'Booking', value: loginModel.booking);
 
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const MainScreen())  );
+
+            if(loginModel.role=="user"){
+             Navigator.pushReplacement(
+                 context,
+                 MaterialPageRoute(
+                     builder: (_) => const MainScreen())  );
+           }else{
+             Navigator.pushReplacement(
+                 context,
+                 MaterialPageRoute(
+                     builder: (_) => const AdminHomeScreen())  );
+           }
                 // showToast(message: value.data['message'], color: secondaryColor);
         emit(SignupSuccess());
       });

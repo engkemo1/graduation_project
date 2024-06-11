@@ -1,14 +1,21 @@
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/constants.dart';
+import 'package:graduation_project/models/events_model.dart';
 import 'package:graduation_project/view/screens/book_screen/book_screen.dart';
+import 'package:graduation_project/view_model/cubit/fav_cubit/fav_cubit.dart';
+import 'package:graduation_project/view_model/database/network/endpoints.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../Notification/notification_screen.dart';
 import '../main_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  DetailsScreen({super.key, required this.eventsData, required this.isFav});
+
+  final EventsData eventsData;
+  bool isFav;
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -16,6 +23,12 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   bool _isExpanded = false;
+  late DateTime date1;
+  late DateTime date2;
+  String monthName = "JUL";
+  String dayName = "Sat";
+  String time = "Sat";
+  List id = [];
 
   void _toggle() {
     setState(() {
@@ -24,58 +37,83 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   @override
+  void initState() {
+    date1 = DateTime.parse(widget.eventsData.from.toString());
+    date2 = DateTime.parse(widget.eventsData.to.toString());
+    monthName = DateFormat('MMMM').format(date1);
+    dayName = DateFormat('EEEE').format(date1);
+    time = DateFormat('hh:mm a').format(date1);
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, 60),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const NotificationScreen()));
+                  },
+                  child: Image.asset("assets/icons/notify.png")),
+            ],
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20.0),
         child: ListView(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black,
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                    ),
-                  ),
-                ),
-                InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const NotificationScreen()));
-                    },
-                    child: Image.asset("assets/icons/notify.png")),
-              ],
-            ),
             const SizedBox(
               height: 20,
             ),
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: Image.asset(
-                    "assets/images/fest.png",
-                    height: 270,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.network(
+                      widget.eventsData.imageCover??'',
+                      fit: BoxFit.contain,
+                      height: 200,
+                      width: double.infinity,
+                      errorBuilder: (context, object, s) {
+                        return Image.asset(
+                          "assets/icons/logo.png",
+                          height: 200,
+                        );
+                      },
+                    )),
                 Positioned(
                   bottom: 20,
                   right: 20,
@@ -87,10 +125,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white.withOpacity(0.8),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        "25\$",
-                        style: TextStyle(
+                        "${widget.eventsData.price}\$",
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.w600),
@@ -105,12 +143,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
             Row(
               children: [
-                const Expanded(
+                Expanded(
                     flex: 3,
                     child: Text(
-                      "Cairo, Art Festival 16:19 JUIE 2024",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+                      "${widget.eventsData.location}, ${widget.eventsData.title} ${date1.day}:${date2.day} $monthName ${date1.year}",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 17),
                     )),
                 const Spacer(
                   flex: 2,
@@ -124,9 +162,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         color: Colors.grey.withOpacity(0.1)),
                     child: FavoriteButton(
                       iconSize: 40.0,
+                      isFavorite: widget.isFav,
                       iconDisabledColor: Colors.white,
-                      valueChanged: (_isFavorite) {
-                        print('Is Favorite $_isFavorite)');
+                      valueChanged: (isFavorite) {
+                        if (widget.isFav == false) {
+                          FavCubit()
+                              .addFavourite(widget.eventsData.sId.toString(),context);
+                          setState(() {
+                            widget.isFav = true;
+                          });
+                        } else {
+                          FavCubit().deleteFavourite(
+                              widget.eventsData.sId.toString(),context);
+                          setState(() {
+                            widget.isFav = false;
+                          });
+                        }
+
                       },
                     ),
                   ),
@@ -148,18 +200,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.grey.withOpacity(0.2),
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
                         Text(
-                          "16",
-                          style: TextStyle(
+                          "${date1.day}",
+                          style: const TextStyle(
                               color: Colors.black,
                               fontSize: 13,
                               fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          "jun",
-                          style: TextStyle(
+                          monthName,
+                          style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 10,
                               fontWeight: FontWeight.w600),
@@ -170,18 +222,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Column(
+                  Column(
                     children: [
                       Text(
-                        "Monday",
-                        style: TextStyle(
+                        dayName,
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 13,
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        "10:00pm",
-                        style: TextStyle(
+                        time,
+                        style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 13,
                             fontWeight: FontWeight.w600),
@@ -194,78 +246,78 @@ class _DetailsScreenState extends State<DetailsScreen> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                const Text(
-                  "Rating",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  margin: EdgeInsets.all(5),
-                  height: 25,
-                  width: 35,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.red,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "8.5",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     const Text(
+            //       "Rating",
+            //       style: TextStyle(
+            //           color: Colors.black,
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.w600),
+            //     ),
+            //     SizedBox(
+            //       width: 10,
+            //     ),
+            //     Container(
+            //       margin: EdgeInsets.all(5),
+            //       height: 25,
+            //       width: 35,
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(5),
+            //         color: Colors.red,
+            //       ),
+            //       child: const Center(
+            //         child: Text(
+            //           "8.5",
+            //           style: TextStyle(
+            //               color: Colors.white,
+            //               fontSize: 13,
+            //               fontWeight: FontWeight.w600),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 50,
-                  child: Text(
-                    "Service",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: LinearPercentIndicator(
-                    width: 200,
-                    animation: true,
-                    barRadius: Radius.circular(20),
-                    lineHeight: 11.0,
-                    animationDuration: 2500,
-                    percent: 0.8,
-                    linearStrokeCap: LinearStrokeCap.round,
-                    progressColor: redLevelColor,
-                  ),
-                ),
-                const Text(
-                  "80.0",
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
+            // Row(
+            //   children: [
+            //     const SizedBox(
+            //       width: 50,
+            //       child: Text(
+            //         "Service",
+            //         style: TextStyle(
+            //             color: Colors.grey,
+            //             fontSize: 14,
+            //             fontWeight: FontWeight.w600),
+            //       ),
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.all(5.0),
+            //       child: LinearPercentIndicator(
+            //         width: 200,
+            //         animation: true,
+            //         barRadius: Radius.circular(20),
+            //         lineHeight: 11.0,
+            //         animationDuration: 2500,
+            //         percent: 0.8,
+            //         linearStrokeCap: LinearStrokeCap.round,
+            //         progressColor: redLevelColor,
+            //       ),
+            //     ),
+            //     const Text(
+            //       "80.0",
+            //       style: TextStyle(
+            //           color: Colors.grey,
+            //           fontSize: 13,
+            //           fontWeight: FontWeight.w600),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(
+            //   height: 5,
+            // ),
             Row(
               children: [
                 const SizedBox(
@@ -286,14 +338,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     barRadius: Radius.circular(20),
                     lineHeight: 11.0,
                     animationDuration: 2500,
-                    percent: 0.9,
+                    percent: widget.eventsData.price! / 1000,
                     linearStrokeCap: LinearStrokeCap.round,
                     progressColor: redLevelColor,
                   ),
                 ),
-                const Text(
-                  "9.0",
-                  style: TextStyle(
+                Text(
+                  "${(widget.eventsData.price! / 1000)}",
+                  style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 13,
                       fontWeight: FontWeight.w600),
@@ -319,7 +371,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 50.0),
                   child: Text(
-                    "is an annual event that takes place in February. It's a sensational fusion of history and contemporary art, featuring installations, displays, and art pieces meticulously curated by experts. The festival includes over 3,000 artworks on display and a rich program of workshops, talks, and special tours. It serves as a cultural lighthouse in the MENA region, offering a chance to deepen and enrich your understanding and appreciation of Arab art and heritage",
+                    "${widget.eventsData.description}",
                     maxLines: _isExpanded ? 8 : 5,
                     style: const TextStyle(
                         color: Colors.grey,
@@ -344,11 +396,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
             const SizedBox(
               height: 20,
             ),
-            const Align(
+            Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                "100 places left",
-                style: TextStyle(
+                "${widget.eventsData.placesLeft ?? 0} places left",
+                style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
                     fontWeight: FontWeight.w700),
@@ -360,7 +412,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             InkWell(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const BookScreen()));
+                    MaterialPageRoute(builder: (_) =>  BookScreen(eventsData:widget.eventsData ,)));
               },
               child: Container(
                 height: 47,
@@ -384,8 +436,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
             ),
-
-
           ],
         ),
       ),

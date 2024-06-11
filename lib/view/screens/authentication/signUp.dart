@@ -308,73 +308,73 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Spacer(),
                     ],
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 47,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      margin: const EdgeInsets.only(
-                        left: 14,
-                        top: 20,
-                        right: 14,
-                        bottom: 15,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/icons/logos_google-icon.svg",
-                            height: 20,
-                            width: 20,
-                          ),
-                          const Text(
-                            "Continue With Google",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16),
-                          ),
-                          SizedBox()
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 47,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      margin: const EdgeInsets.only(
-                        left: 14,
-                        right: 14,
-                        bottom: 50,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/icons/devicon_facebook.svg",
-                            height: 20,
-                            width: 20,
-                          ),
-                          const Text(
-                            "Continue With Facebook",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16),
-                          ),
-                          const SizedBox()
-                        ],
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     height: 47,
+                  //     decoration: BoxDecoration(
+                  //         border: Border.all(color: Colors.grey),
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         color: Colors.white),
+                  //     margin: const EdgeInsets.only(
+                  //       left: 14,
+                  //       top: 20,
+                  //       right: 14,
+                  //       bottom: 15,
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //       children: [
+                  //         SvgPicture.asset(
+                  //           "assets/icons/logos_google-icon.svg",
+                  //           height: 20,
+                  //           width: 20,
+                  //         ),
+                  //         const Text(
+                  //           "Continue With Google",
+                  //           style: TextStyle(
+                  //               color: Colors.black,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontSize: 16),
+                  //         ),
+                  //         SizedBox()
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // InkWell(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     height: 47,
+                  //     decoration: BoxDecoration(
+                  //         border: Border.all(color: Colors.grey),
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         color: Colors.white),
+                  //     margin: const EdgeInsets.only(
+                  //       left: 14,
+                  //       right: 14,
+                  //       bottom: 50,
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //       children: [
+                  //         SvgPicture.asset(
+                  //           "assets/icons/devicon_facebook.svg",
+                  //           height: 20,
+                  //           width: 20,
+                  //         ),
+                  //         const Text(
+                  //           "Continue With Facebook",
+                  //           style: TextStyle(
+                  //               color: Colors.black,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontSize: 16),
+                  //         ),
+                  //         const SizedBox()
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

@@ -10,6 +10,7 @@ class DioHelper {
 
   //Here The Initialize of Dio and Start Connect to API Using baseUrl.
   static init() {
+
     dio = Dio(
       BaseOptions(
         //Here the URL of API.
@@ -22,6 +23,7 @@ class DioHelper {
         },
       ),
     );
+
   }
 
   //This Function to call API and get Some Data based on url(End Points) and Headers needed in API to get the Specific Data.
@@ -56,8 +58,8 @@ class DioHelper {
   //This Function that's Used To Post Data to API based on URL(End Points) and Headers.
   static Future<Response> postData({
     required String url,
-    required Map<String, dynamic> data,
-    //bool files = false,
+    var data,
+    Map<String, dynamic>? queryParameters,
     String? token,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
@@ -68,6 +70,7 @@ class DioHelper {
       };
       final Response response = await dio.post(
         url,
+        queryParameters: queryParameters,
         data: data,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -95,7 +98,7 @@ class DioHelper {
   //This Function That's Used to Update Some Date based on URL(End Points) and Send what's you need to Update as Map.
   static Future<Response> putData({
     required String url,
-    required Map<String, dynamic> data,
+    required dynamic data,
     String? token,
     //bool files = false,
     ProgressCallback? onSendProgress,
@@ -156,6 +159,7 @@ class DioHelper {
         //'Content-Type': 'application/json',
       };
       final Response response = await dio.delete(
+
         url,
         data: data,
       );

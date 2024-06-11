@@ -39,26 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black,
-                        ),
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                      ),
-                    ),
-                  ),
+
                   const SizedBox(
                     height: 70,
                   ),
@@ -241,7 +222,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (state is LoginLoadingState) {
                         SmartDialog.showLoading();
                         await Future.delayed(Duration(seconds: 2));
+                      }
+                      if(state is LoginSuccessState|| state is LoginErrorState){
                         SmartDialog.dismiss();
+
                       }
                     },
                     ),
@@ -257,73 +241,73 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     ],
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 47,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      margin: const EdgeInsets.only(
-                        left: 14,                    top: 20,
-
-                        right: 14,
-                        bottom: 15,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/icons/logos_google-icon.svg",
-                            height: 20,
-                            width: 20,
-                          ),
-                          const Text(
-                            "Continue With Google",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16),
-                          ),
-                          SizedBox()
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 47,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      margin: const EdgeInsets.only(
-                        left: 14,
-                        right: 14,
-                        bottom: 50,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/icons/devicon_facebook.svg",
-                            height: 20,
-                            width: 20,
-                          ),
-                          const Text(
-                            "Continue With Facebook",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16),
-                          ),
-                          const SizedBox()
-                        ],
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     height: 47,
+                  //     decoration: BoxDecoration(
+                  //         border: Border.all(color: Colors.grey),
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         color: Colors.white),
+                  //     margin: const EdgeInsets.only(
+                  //       left: 14,                    top: 20,
+                  //
+                  //       right: 14,
+                  //       bottom: 15,
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //       children: [
+                  //         SvgPicture.asset(
+                  //           "assets/icons/logos_google-icon.svg",
+                  //           height: 20,
+                  //           width: 20,
+                  //         ),
+                  //         const Text(
+                  //           "Continue With Google",
+                  //           style: TextStyle(
+                  //               color: Colors.black,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontSize: 16),
+                  //         ),
+                  //         SizedBox()
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // InkWell(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     height: 47,
+                  //     decoration: BoxDecoration(
+                  //         border: Border.all(color: Colors.grey),
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         color: Colors.white),
+                  //     margin: const EdgeInsets.only(
+                  //       left: 14,
+                  //       right: 14,
+                  //       bottom: 50,
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //       children: [
+                  //         SvgPicture.asset(
+                  //           "assets/icons/devicon_facebook.svg",
+                  //           height: 20,
+                  //           width: 20,
+                  //         ),
+                  //         const Text(
+                  //           "Continue With Facebook",
+                  //           style: TextStyle(
+                  //               color: Colors.black,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontSize: 16),
+                  //         ),
+                  //         const SizedBox()
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

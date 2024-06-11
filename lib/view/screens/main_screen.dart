@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation_project/view/screens/categories/categories_screen.dart';
@@ -15,7 +17,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
+  static  List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     NewsScreen(),
     CategoriesScreen(),
@@ -31,67 +33,74 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/home.png"),
-            activeIcon: Container(
-              padding: EdgeInsets.all(7),
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-              child: Image.asset("assets/icons/home.png"),
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (bool didPop) {
+
+exit(0);        
+      },
+      child: Scaffold(
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Image.asset("assets/icons/home.png"),
+              activeIcon: Container(
+                padding: EdgeInsets.all(7),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                child: Image.asset("assets/icons/home.png"),
+              ),
+              label: 'Home',
             ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/reports.png"),
-            activeIcon: Container(
-              padding: EdgeInsets.all(7),
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-              child: Image.asset("assets/icons/reports.png"),
+            BottomNavigationBarItem(
+              icon: Image.asset("assets/icons/reports.png"),
+              activeIcon: Container(
+                padding: EdgeInsets.all(7),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                child: Image.asset("assets/icons/reports.png"),
+              ),
+              label: 'News',
             ),
-            label: 'News',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/Categorize.png"),
-            activeIcon: Container(
-              padding: EdgeInsets.all(7),
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-              child: Image.asset("assets/icons/Categorize.png"),
+            BottomNavigationBarItem(
+              icon: Image.asset("assets/icons/Categorize.png"),
+              activeIcon: Container(
+                padding: EdgeInsets.all(7),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                child: Image.asset("assets/icons/Categorize.png"),
+              ),
+              label: 'Categories',
             ),
-            label: 'Categories',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/fav.png"),
-            activeIcon: Container(
-              padding: EdgeInsets.all(7),
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-              child: Image.asset("assets/icons/fav.png"),
+            BottomNavigationBarItem(
+              icon: Image.asset("assets/icons/fav.png"),
+              activeIcon: Container(
+                padding: EdgeInsets.all(7),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                child: Image.asset("assets/icons/fav.png"),
+              ),
+              label: 'Favourite',
             ),
-            label: 'Favourite',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/person.png"),
-            activeIcon: Container(
-              padding: EdgeInsets.all(7),
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-              child: Image.asset("assets/icons/person.png"),
+            BottomNavigationBarItem(
+              icon: Image.asset("assets/icons/person.png"),
+              activeIcon: Container(
+                padding: EdgeInsets.all(7),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                child: Image.asset("assets/icons/person.png"),
+              ),
+              label: 'Profile',
             ),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        unselectedItemColor: Colors.black,
-        selectedItemColor: Colors.black,
-        onTap: _onItemTapped,
+          ],
+          currentIndex: _selectedIndex,
+          unselectedItemColor: Colors.black,
+          selectedItemColor: Colors.black,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

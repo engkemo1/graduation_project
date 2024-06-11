@@ -99,7 +99,7 @@ class ForgetPassCubit extends Cubit<ForgetPassMainState> {
     try {
 
       await DioHelper
-          .postData(url: "$baseUrl$resetPassword",
+          .putData(url: "$baseUrl$resetPassword",
         data:
         {
           "email": email,
@@ -113,7 +113,6 @@ class ForgetPassCubit extends Cubit<ForgetPassMainState> {
         Navigator.push(context,
             MaterialPageRoute(builder: (_) => const SuccessPasswordScreen()));
 
-        SmartDialog.showToast(value.data["message"]);
         emit(ForgetPassSuccessState());
       });
     } on DioError catch (e) {

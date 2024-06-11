@@ -56,7 +56,7 @@ class PaginationResult {
 class NewsData {
   String? sId;
   String? name;
-  String? slug;
+  String? description;
   String? image;
   String? createdAt;
   String? updatedAt;
@@ -64,7 +64,7 @@ class NewsData {
   NewsData(
       {this.sId,
         this.name,
-        this.slug,
+        this.description,
         this.image,
         this.createdAt,
         this.updatedAt});
@@ -72,8 +72,8 @@ class NewsData {
   NewsData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    slug = json['slug'];
-    image = json['image'];
+    description = json['description'];
+    image = json['newsImage'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -82,8 +82,8 @@ class NewsData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['image'] = this.image;
+    data['description'] = this.description;
+    data['newsImage'] = this.image;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     return data;

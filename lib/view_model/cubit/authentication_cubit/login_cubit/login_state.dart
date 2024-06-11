@@ -9,3 +9,14 @@ class LoginErrorState extends LoginMainState{
 
   LoginErrorState(this.error);
 }
+
+
+
+class UpdateLoginLoadingState extends LoginMainState{}
+class UpdateLoginSuccessState extends LoginMainState{}
+
+class UpdateLoginErrorState extends LoginMainState{
+  final  error;
+
+  UpdateLoginErrorState(this.error);
+}

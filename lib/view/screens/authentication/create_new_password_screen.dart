@@ -90,7 +90,6 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                   TextFormField(
                     obscureText: obscureText,
                     controller: passController,
-                    validator:(value) => _confirmPasswordValidator(value!),
                     decoration: InputDecoration(
                         hintText: "Password",
                         hintStyle: const TextStyle(
@@ -134,18 +133,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                   ),
                   TextFormField(
                     obscureText: obscureText2,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
-                      }
-                      String pattern =
-                          r'^(?=.*?[0-9]).{8,}$';
-                      RegExp regex = RegExp(pattern);
-                      if (!regex.hasMatch(value)) {
-                        return 'Enter a valid password (Min. 8 characters)';
-                      }
-                      return null;
-                    },
+
                     decoration: InputDecoration(
 
                         hintText: "Confirm Password",

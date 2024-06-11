@@ -56,64 +56,83 @@ class PaginationResult {
 class EventsData {
   String? sId;
   String? title;
-  String? slug;
   String? description;
-  int? ticket;
+  int? pricePre;
   int? price;
-  int? priceAfterDiscount;
+  int? seatnumber;
+  List<Null>? seatNumbers;
   String? imageCover;
-  List<String>? images;
+  String? category;
+  String? subcategorie;
+  String? from;
+  String? to;
+  String? location;
   String? createdAt;
   String? updatedAt;
-  int? numberofticket;
-  int? seatnumber;
+  int? placesLeft;
 
   EventsData(
       {this.sId,
         this.title,
-        this.slug,
         this.description,
-        this.ticket,
+        this.pricePre,
         this.price,
-        this.priceAfterDiscount,
+        this.seatnumber,
+        this.seatNumbers,
         this.imageCover,
-        this.images,
+        this.category,
+        this.subcategorie,
+        this.from,
+        this.to,
+        this.location,
         this.createdAt,
         this.updatedAt,
-        this.numberofticket,
-        this.seatnumber});
+        this.placesLeft});
 
   EventsData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     title = json['title'];
-    slug = json['slug'];
     description = json['description'];
-    ticket = json['ticket'];
+    pricePre = json['pricePre'];
     price = json['price'];
-    priceAfterDiscount = json['priceAfterDiscount'];
+    seatnumber = json['seatnumber'];
+    if (json['seatNumbers'] != null) {
+      seatNumbers = <Null>[];
+      json['seatNumbers'].forEach((v) {
+        seatNumbers!.add(v);
+      });
+    }
     imageCover = json['imageCover'];
-    images = json['images'].cast<String>();
+    category = json['category'];
+    subcategorie = json['subcategorie'];
+    from = json['from'];
+    to = json['to'];
+    location = json['location'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    numberofticket = json['numberofticket'];
-    seatnumber = json['seatnumber'];
+    placesLeft = json['placesLeft'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['title'] = this.title;
-    data['slug'] = this.slug;
     data['description'] = this.description;
-    data['ticket'] = this.ticket;
+    data['pricePre'] = this.pricePre;
     data['price'] = this.price;
-    data['priceAfterDiscount'] = this.priceAfterDiscount;
+    data['seatnumber'] = this.seatnumber;
+    if (this.seatNumbers != null) {
+      data['seatNumbers'] = this.seatNumbers!.map((v) => v).toList();
+    }
     data['imageCover'] = this.imageCover;
-    data['images'] = this.images;
+    data['category'] = this.category;
+    data['subcategorie'] = this.subcategorie;
+    data['from'] = this.from;
+    data['to'] = this.to;
+    data['location'] = this.location;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
-    data['numberofticket'] = this.numberofticket;
-    data['seatnumber'] = this.seatnumber;
+    data['placesLeft'] = this.placesLeft;
     return data;
   }
 }

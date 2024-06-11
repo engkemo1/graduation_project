@@ -1,26 +1,35 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:graduation_project/models/events_model.dart';
 import 'package:graduation_project/view/screens/book_screen/checkout.dart';
+import 'package:graduation_project/view_model/database/local.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 import '../Notification/notification_screen.dart';
 
 class BookScreen extends StatefulWidget {
-  const BookScreen({super.key});
+  const BookScreen({super.key, required this.eventsData});
+
+  final EventsData eventsData;
 
   @override
   State<BookScreen> createState() => _BookScreenState();
 }
 
 class _BookScreenState extends State<BookScreen> {
-  var _focusDate;
+  var _focusDate=DateTime.now();
 
   final EasyInfiniteDateTimelineController _dateController =
       EasyInfiniteDateTimelineController();
 
   TextEditingController _controller = TextEditingController();
   String _selectedContent = '';
+
+  TextEditingController seatNumberController = TextEditingController();
 
   // Function to handle selection
   void _selectContainer(String content) {
@@ -60,7 +69,10 @@ class _BookScreenState extends State<BookScreen> {
                     ),
                   ),
                 ),
-                const Text("Book Now",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                const Text(
+                  "Book Now",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(),
               ],
             ),
@@ -83,6 +95,7 @@ class _BookScreenState extends State<BookScreen> {
                 setState(() {
                   _focusDate = selectedDate;
                 });
+                print(_focusDate);
               },
             ),
             const SizedBox(
@@ -209,6 +222,7 @@ class _BookScreenState extends State<BookScreen> {
                       SizedBox(
                         height: 50,
                         child: TextField(
+                          controller: seatNumberController,
                           decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(10),
                               hintText: "Please enter the seat number",
@@ -249,7 +263,9 @@ class _BookScreenState extends State<BookScreen> {
                               fontSize: 18),
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       SizedBox(
                         height: 50,
                         child: TextField(
@@ -276,8 +292,9 @@ class _BookScreenState extends State<BookScreen> {
                               fillColor: Colors.white),
                         ),
                       ),
-                      const SizedBox(height: 5,),
-
+                      const SizedBox(
+                        height: 5,
+                      ),
                       SizedBox(
                         height: 50,
                         child: TextField(
@@ -304,8 +321,9 @@ class _BookScreenState extends State<BookScreen> {
                               fillColor: Colors.white),
                         ),
                       ),
-                      const SizedBox(height: 5,),
-
+                      const SizedBox(
+                        height: 5,
+                      ),
                       SizedBox(
                         height: 50,
                         child: TextField(
@@ -332,8 +350,9 @@ class _BookScreenState extends State<BookScreen> {
                               fillColor: Colors.white),
                         ),
                       ),
-                      const SizedBox(height: 5,),
-
+                      const SizedBox(
+                        height: 5,
+                      ),
                       SizedBox(
                         height: 50,
                         child: TextField(
@@ -360,15 +379,35 @@ class _BookScreenState extends State<BookScreen> {
                               fillColor: Colors.white),
                         ),
                       ),
-                      SizedBox(height: 20,),
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("35\$",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                          Text(
+                            "${widget.eventsData.price}\$",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (_) => const CheckoutScreen()));
+                              print(DateFormat("yyyy-MM-dd").format(_focusDate));
+                              print(_selectedContent);
+                              if(seatNumberController.text.isEmpty){
+                                SmartDialog.showToast("Seat number is required");
+                              }else{
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => CheckoutScreen(
+                                          eventsData: widget.eventsData,
+                                          type: _selectedContent,
+                                          seatNumber: int.parse(seatNumberController.text),
+                                          date: DateFormat("yyyy-MM-dd").format(_focusDate),
+                                        )));
+                              }
+
                             },
                             child: Container(
                               height: 47,
@@ -376,7 +415,6 @@ class _BookScreenState extends State<BookScreen> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: redLevelColor),
-
                               child: const Center(
                                 child: Text(
                                   "Continue",
@@ -388,12 +426,11 @@ class _BookScreenState extends State<BookScreen> {
                               ),
                             ),
                           ),
-
                         ],
                       ),
-                      const SizedBox(height: 20,)
-
-
+                      const SizedBox(
+                        height: 20,
+                      )
                     ],
                   )
                 : const SizedBox()
