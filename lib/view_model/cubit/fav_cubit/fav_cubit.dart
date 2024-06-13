@@ -24,7 +24,7 @@ List<FavData> favData=[];
               queryParameters: {"eventId": id},
               token: CacheHelper.get(key: "token"))
           .then((value) {
-        FavCubit.get(context).favData.clear();
+        FavCubit.get(context).favData=[];
 
         FavCubit.get(context).getFavourite();
 

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:graduation_project/models/events_model.dart';
 import 'package:graduation_project/models/sub_categories_model.dart';
 import 'package:graduation_project/view_model/database/network/endpoints.dart';
 
 import '../../../models/CategoryModel.dart';
+import '../../../view_model/cubit/fav_cubit/fav_cubit.dart';
 import '../../../view_model/cubit/home_cubit/home_cubit.dart';
 import '../../../view_model/cubit/home_cubit/home_state.dart';
 import '../Notification/notification_screen.dart';
+import 'details_screen.dart';
 
 class SubCategoriesScreen extends StatefulWidget {
   final List<SubCategoryData> data;
@@ -157,45 +160,78 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                     Expanded(
                       child: GridView.builder(
                         itemBuilder: (context, index) {
-                          return SizedBox(
-                            width: 180,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                      bottomRight: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15)),
-                                  child: Image.network(
-                                    height: 150,width: 200,
-                                    eventsData[index].imageCover.toString(),
-                                    errorBuilder: (context, e, o) =>
-                                        Image.asset('assets/images/sp.png',height: 200,),
+                          return  GestureDetector(
+                            onTap: (){
+                              bool isFav = false;
+                              FavCubit()
+                                  .getFavourite()
+                                  .then((onValue) {
+                                isFav = onValue
+                                    .contains(eventsData[index].sId)
+                                    ? true
+                                    : false;
+
+                                print(isFav);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => DetailsScreen(
+                                          eventsData:
+                                          eventsData[index],
+                                          isFav: isFav,
+                                        )));
+                              });
+                            },
+                            child:  SizedBox(
+                              width: 180,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(15),
+                                        bottomLeft: Radius.circular(15)),
+                                    child: Image.network(
+                                      height: 150,width: 200,
+                                      eventsData[index].imageCover.toString(),
+                                      errorBuilder: (context, e, o) =>
+                                          Image.asset('assets/images/sp.png',height: 200,),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 5),
-                                  child: Text(
-                                    eventsData[index].title.toString(),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 5),
+                                    child: Text(
+                                      eventsData[index].title.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14),
+                                    ),
                                   ),
-                                ),
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Text(
-                                    "More details",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      "More details",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Row(children: [
+                                    Spacer(),
+                                    Expanded(child: StarRating(
+                                        rating:eventsData[index].rate==null?0.0:eventsData[index].rate!.toDouble(),
+                                        size: 15,
+                                        allowHalfRating: false,
+                                        onRatingChanged: (rating){}
+                                    ),)
+                                  ],)
+
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -204,7 +240,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 3,
-                                childAspectRatio: 0.65,
+                                childAspectRatio: 0.55,
                                 crossAxisSpacing: 15),
                       ),
                     )

@@ -6,6 +6,8 @@ import 'package:graduation_project/view_model/cubit/news_cubit/news_cubit.dart';
 import 'package:graduation_project/view_model/cubit/news_cubit/news_state.dart';
 import 'package:intl/intl.dart';
 
+import '../Notification/notification_screen.dart';
+
 class NewsScreen extends StatefulWidget {
    NewsScreen({super.key});
 
@@ -42,8 +44,7 @@ class _NewsScreenState extends State<NewsScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) =>
-                                      const FavouritesNoneWidget()));
+                                  builder: (_) => const NotificationScreen()));
                         },
                         child: Image.asset("assets/icons/notify.png")),
                   ],

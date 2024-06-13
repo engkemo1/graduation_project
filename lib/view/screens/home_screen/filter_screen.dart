@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:graduation_project/constants.dart';
 import 'package:graduation_project/view/screens/Notification/notification_screen.dart';
@@ -77,7 +78,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) =>
-                                        const FavouritesNoneWidget()));
+                                        const NotificationScreen()));
                           },
                           child: Image.asset("assets/icons/notify.png")),
                     ],
@@ -269,18 +270,23 @@ class _FilterScreenState extends State<FilterScreen> {
                                     ),
                                   ),
                                   Expanded(
-                                    flex: 3,
+                                    flex: 4,
                                     child: Column(
                                       children: [
-                                        const Spacer(),
+                                        Expanded(child: StarRating(
+                                            rating:eventsListData2[index].rate==null?0.0:eventsListData2[index].rate!.toDouble(),
+                                            size: 15,
+                                            allowHalfRating: false,
+                                            onRatingChanged: (rating){}
+                                        ),),
                                         GestureDetector(
                                           onTap: () {
                                             bool isFav = false;
                                             FavCubit()
                                                 .getFavourite()
                                                 .then((onValue) {
-                                              isFav = onValue.contains(
-                                                      eventsListData2[index].sId)
+                                              isFav = onValue
+                                                  .contains(eventsListData2[index].sId)
                                                   ? true
                                                   : false;
 
@@ -288,22 +294,21 @@ class _FilterScreenState extends State<FilterScreen> {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          DetailsScreen(
-                                                            eventsData:
-                                                                eventsListData2[index],
-                                                            isFav: isFav,
-                                                          )));
+                                                      builder: (_) => DetailsScreen(
+                                                        eventsData:
+                                                        eventsListData2[index],
+                                                        isFav: isFav,
+                                                      )));
                                             });
                                           },
                                           child: Container(
-                                            margin: const EdgeInsets.only(
+                                            margin: EdgeInsets.only(
                                                 bottom: 10, right: 10),
                                             height: 40,
                                             width: 100,
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                               color: Colors.red,
                                             ),
                                             child: const Center(
@@ -312,8 +317,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w600),
+                                                    fontWeight: FontWeight.w600),
                                               ),
                                             ),
                                           ),

@@ -2,6 +2,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:graduation_project/view/screens/favourites/Favoiurites_none_widget.dart';
 import 'package:graduation_project/view_model/cubit/fav_cubit/fav_cubit.dart';
 import 'package:graduation_project/view_model/cubit/fav_cubit/fav_state.dart';
 import 'package:intl/intl.dart';
@@ -44,7 +45,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
             }
           }, builder: (context, state) {
             var cubit = FavCubit.get(context);
-            return ListView.separated(
+            return cubit.favData.isNotEmpty? ListView.separated(
               itemCount: cubit.favData.length,
               itemBuilder: (context, index) {
                 bool isFav = true;
@@ -52,8 +53,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                     DateTime.parse(cubit.favData[index].from.toString());
                 var monthName = DateFormat('MMMM').format(date1);
                 var time = DateFormat('hh:mm a').format(date1);
-                return cubit.favData.isNotEmpty
-                    ? Stack(
+                return  Stack(
                         clipBehavior: Clip.none,
                         fit: StackFit.loose,
                         children: [
@@ -178,16 +178,8 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                             ),
                           ),
                         ],
-                      )
-                    : const Center(
-                        child: Text(
-                          "Favourite Events Empty",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.black),
-                        ),
                       );
+                 
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(
@@ -293,7 +285,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               //         ],
               //       ),
               //     ))
-            );
+            ):FavouritesNoneWidget(text: "Favourites");
           }),
         ),
       ),

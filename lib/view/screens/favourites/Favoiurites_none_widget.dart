@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/view/screens/main_screen.dart';
 
 import '../../../constants.dart';
 
 class FavouritesNoneWidget extends StatelessWidget {
-  const FavouritesNoneWidget({super.key});
-
+  const FavouritesNoneWidget({super.key, required this.text});
+final String  text;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -16,47 +17,12 @@ class FavouritesNoneWidget extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black,
-                        ),
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "Favourite",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24),
-                  ),
-                  const SizedBox(),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+
               Image.asset("assets/images/none.png"),
-              const Align(
+               Align(
                 alignment: Alignment.center,
-                child: Text("No favourite found",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),),
+                child: Text("No ${text} found",
+                  style:const TextStyle(fontSize: 30, fontWeight: FontWeight.w700),),
               ),
               const Align(
                 alignment: Alignment.center,
@@ -65,7 +31,7 @@ class FavouritesNoneWidget extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-
+Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>MainScreen()));
                 },
                 child: Container(
                   height: 60,

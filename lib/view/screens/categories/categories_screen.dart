@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:graduation_project/models/events_model.dart';
 import 'package:graduation_project/view/screens/categories/sub_categories_screen.dart';
 
+import '../../../view_model/cubit/fav_cubit/fav_cubit.dart';
 import '../../../view_model/cubit/home_cubit/home_cubit.dart';
 import '../../../view_model/cubit/home_cubit/home_state.dart';
 import '../Notification/notification_screen.dart';
+import 'details_screen.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -165,52 +168,85 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     Expanded(
                       child: GridView.builder(
                         itemBuilder: (context, index) {
-                          return SizedBox(
-                            width: 180,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                      bottomRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10)),
-                                  child: Image.network(
-                                    eventsListData[index].imageCover
-                                        .toString(),
-                                    height: 170,
-                                    width: 300,
-                                    errorBuilder: (context, e, o) =>
-                                        Image.asset(
-                                      'assets/images/sp.png',
+                          return GestureDetector(
+                            onTap: (){
+                              bool isFav = false;
+                              FavCubit()
+                                  .getFavourite()
+                                  .then((onValue) {
+                                isFav = onValue
+                                    .contains(eventsListData[index].sId)
+                                    ? true
+                                    : false;
+
+                                print(isFav);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => DetailsScreen(
+                                          eventsData:
+                                          eventsListData[index],
+                                          isFav: isFav,
+                                        )));
+                              });
+                            },
+                            child: SizedBox(
+                              width: 180,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10)),
+                                    child: Image.network(
+                                      eventsListData[index].imageCover
+                                          .toString(),
                                       height: 170,
                                       width: 300,
+                                      errorBuilder: (context, e, o) =>
+                                          Image.asset(
+                                        'assets/images/sp.png',
+                                        height: 170,
+                                        width: 300,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 5),
-                                  child: Text(
-                                    eventsListData[index].title
-                                        .toString(),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 5),
+                                    child: Text(
+                                      eventsListData[index].title
+                                          .toString(),
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14),
+                                    ),
                                   ),
-                                ),
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Text(
-                                    "More details",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
+
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      "More details",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Row(children: [
+                                    Spacer(),
+                                    Expanded(child: StarRating(
+                                        rating:eventsListData[index].rate==null?0.0:eventsListData[index].rate!.toDouble(),
+                                        size: 15,
+                                        allowHalfRating: false,
+                                        onRatingChanged: (rating){}
+                                    ),)
+                                  ],)
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -218,7 +254,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 3,
-                            childAspectRatio: 0.60
+                            childAspectRatio: 0.55
                             ,
                             crossAxisSpacing: 15),
                       ),

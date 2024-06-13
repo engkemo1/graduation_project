@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:graduation_project/view/screens/profile/edit_profile.dart';
 import 'package:graduation_project/view_model/cubit/authentication_cubit/login_cubit/login_cubit.dart';
@@ -218,10 +219,15 @@ image != null?  CircleAvatar(
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 3,
+                                  flex: 4,
                                   child: Column(
                                     children: [
-                                      const Spacer(),
+                                      Expanded(child: StarRating(
+                                          rating:eventsListData.rate==null?0.0:eventsListData.rate!.toDouble(),
+                                          size: 15,
+                                          allowHalfRating: false,
+                                          onRatingChanged: (rating){}
+                                      ),),
                                       GestureDetector(
                                         onTap: () {
                                           bool isFav = false;

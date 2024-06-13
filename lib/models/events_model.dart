@@ -70,6 +70,7 @@ class EventsData {
   String? createdAt;
   String? updatedAt;
   int? placesLeft;
+  int? rate;
 
   EventsData(
       {this.sId,
@@ -86,6 +87,7 @@ class EventsData {
         this.to,
         this.location,
         this.createdAt,
+        this.rate,
         this.updatedAt,
         this.placesLeft});
 
@@ -106,6 +108,8 @@ class EventsData {
     category = json['category'];
     subcategorie = json['subcategorie'];
     from = json['from'];
+    rate = json['rate'];
+
     to = json['to'];
     location = json['location'];
     createdAt = json['createdAt'];
@@ -116,6 +120,8 @@ class EventsData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
+    data['rate'] = this.rate;
+
     data['title'] = this.title;
     data['description'] = this.description;
     data['pricePre'] = this.pricePre;

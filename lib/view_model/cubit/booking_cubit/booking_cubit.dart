@@ -1,7 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:graduation_project/models/events_model.dart';
+import 'package:graduation_project/view/screens/book_screen/ticket_design.dart';
 import 'package:graduation_project/view_model/database/local.dart';
 import '../../database/network/dio_helper.dart';
 import '../../database/network/endpoints.dart';
@@ -33,12 +37,7 @@ class BookingCubit extends Cubit<BookingMainState> {
     }
   }
 
-  addBooking(
-    String type,
-    String date,
-    int seatNumber,String id
-  ) async {
-
+  Future addBooking(String type, String date, int seatNumber,String price, String id,EventsData eventData,BuildContext context) async {
     try {
       await DioHelper.postData(
           url: "https://entertainia.onrender.com/api/v1/booking?eventId=$id",
@@ -47,10 +46,15 @@ class BookingCubit extends Cubit<BookingMainState> {
             "type": type,
             "date": date,
             "seatnumber": seatNumber
-          }).then((value) async{
+          }).then((value) async {
         SmartDialog.showToast("Added Successfully");
-       await CacheHelper.put(key: "Booking", value: (int.tryParse(CacheHelper.get(key: "Booking").toString())!+1).toString());
-emit(state);
+        await CacheHelper.put(
+            key: "Booking",
+            value:
+                (int.tryParse(CacheHelper.get(key: "Booking").toString())! + 1)
+                    .toString());
+        Navigator.push(context,MaterialPageRoute(builder: (_)=>TicketCard(price: price,id:id ,eventsData: eventData,)));
+        emit(state);
         // bookingList=
         //     (value.data["data"] as List).map((e) => BookingData.fromJson(e)).toList();
       });

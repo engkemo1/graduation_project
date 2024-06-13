@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:graduation_project/view/screens/favourites/Favoiurites_none_widget.dart';
 import 'package:graduation_project/view_model/cubit/notification_cubit/norification_cubit.dart';
 import 'package:graduation_project/view_model/cubit/notification_cubit/notification_state.dart';
 
@@ -11,6 +12,45 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size(double.infinity,70),
+            child:                 Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    ),
+                  ),
+                ),
+                const Text(
+                  "Notifications",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24),
+                ),
+                const SizedBox()
+              ],
+                        ),
+            ),
+              ),
       body: BlocConsumer<NotificationCubit, NotificationMainState>(
           listener: (BuildContext context, NotificationMainState state) async {
             if (state is NotificationLoadingState) {
@@ -20,43 +60,10 @@ class NotificationScreen extends StatelessWidget {
             }
           }, builder: (BuildContext context, state) {
         var cubit = NotificationCubit.get(context);
-        return  Padding(
+        return cubit.notificationModelList.isNotEmpty? Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20.0),
             child: ListView(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.black,
-                          ),
-                          child: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Text(
-                      "Notifications",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24),
-                    ),
-                    const SizedBox()
-                  ],
-                ),
                 const SizedBox(height: 40,),
 
                 const Align(
@@ -122,7 +129,7 @@ class NotificationScreen extends StatelessWidget {
 
               ],
             ),
-          );
+          ):FavouritesNoneWidget(text: "Notifications",);
         }
       ),
     ));

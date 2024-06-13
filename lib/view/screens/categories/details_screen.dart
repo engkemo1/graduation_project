@@ -1,5 +1,6 @@
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:graduation_project/constants.dart';
 import 'package:graduation_project/models/events_model.dart';
 import 'package:graduation_project/view/screens/book_screen/book_screen.dart';
@@ -114,6 +115,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         );
                       },
                     )),
+                Positioned(
+                  left: 0,
+                  bottom: 5,
+                  child:Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.black26),
+                    child: StarRating(
+                        rating:widget.eventsData.rate==null?0.0:widget.eventsData.rate!.toDouble(),
+                        size: 20,
+                        allowHalfRating: false,
+                        onRatingChanged: (rating){}
+                    ),
+                  ),),
                 Positioned(
                   bottom: 20,
                   right: 20,

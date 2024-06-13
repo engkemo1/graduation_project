@@ -64,60 +64,55 @@ class CheckoutScreen extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            Builder(
-              builder: (context) {
-                var date1 =
-                DateTime.parse(eventsData.from.toString());
-                var date2 = DateTime.parse(eventsData.to.toString());
-                String monthName =
-                DateFormat('MMMM').format(date1);
-                return SizedBox(
-                  height: 127,
-                  width: 343,
-                  child: Card(
-                    elevation: 0.8,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            flex: 4,
-                            child: Image.network(
-                              eventsData.imageCover.toString(),
-                              height:99 ,
+            Builder(builder: (context) {
+              var date1 = DateTime.parse(eventsData.from.toString());
+              var date2 = DateTime.parse(eventsData.to.toString());
+              String monthName = DateFormat('MMMM').format(date1);
+              return SizedBox(
+                height: 127,
+                width: 343,
+                child: Card(
+                  elevation: 0.8,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          flex: 4,
+                          child: Image.network(
+                            eventsData.imageCover.toString(),
+                            height: 99,
+                            width: 100,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, e, o) => Image.asset(
+                              "assets/images/event.png",
+                              height: 99,
                               width: 100,
                               fit: BoxFit.contain,
-
-                              errorBuilder: (context, e, o) => Image.asset(
-                                "assets/images/event.png",
-                                height: 99,
-                                width: 100,
-                                fit: BoxFit.contain,
-                              ),
-                            )),
-                         Expanded(
-                          flex: 6,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              " ${eventsData.location} ${eventsData.title}  ${date1.day}:${date2.day} $monthName ${date1.year}",
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
+                          )),
+                      Expanded(
+                        flex: 6,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            " ${eventsData.location} ${eventsData.title}  ${date1.day}:${date2.day} $monthName ${date1.year}",
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ),
-                        const Spacer(
-                          flex: 3,
-                        ),
-                      ],
-                    ),
+                      ),
+                      const Spacer(
+                        flex: 3,
+                      ),
+                    ],
                   ),
-                );
-              }
-            ),
+                ),
+              );
+            }),
             const SizedBox(
               height: 20,
             ),
@@ -431,7 +426,14 @@ class CheckoutScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                BookingCubit().addBooking(type,  date, seatNumber,eventsData.sId.toString());
+                BookingCubit().addBooking(
+                    type,
+                    date,
+                    seatNumber,
+                    eventsData.price.toString(),
+                    eventsData.sId.toString(),
+                    eventsData,
+                    context);
               },
               child: Container(
                 height: 47,

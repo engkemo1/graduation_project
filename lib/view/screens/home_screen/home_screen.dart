@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:graduation_project/models/events_model.dart';
 import 'package:graduation_project/view/screens/Notification/notification_screen.dart';
@@ -253,10 +254,15 @@ cubit.eventsListData.forEach((e){
                                 ),
                               ),
                               Expanded(
-                                flex: 3,
+                                flex: 4,
                                 child: Column(
                                   children: [
-                                    const Spacer(),
+                                    Expanded(child: StarRating(
+                                        rating:eventsListData.rate==null?0.0:eventsListData.rate!.toDouble(),
+                                        size: 15,
+                                        allowHalfRating: false,
+                                        onRatingChanged: (rating){}
+                                    ),),
                                     GestureDetector(
                                       onTap: () {
                                         bool isFav = false;
